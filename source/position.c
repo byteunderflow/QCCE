@@ -328,7 +328,7 @@ QCCEPositionRef QCCEGetPositionFromFEN(const char *FEN)
         return NULL;
     }
 
-    const char Delimiter[1] = " ";
+    const char Delimiter[2] = " ";
     char *PositionString = strtok(FENString, Delimiter);
     char *ColorString = strtok(NULL, Delimiter);
     char *FlagsString = strtok(NULL, Delimiter);
