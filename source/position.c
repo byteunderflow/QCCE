@@ -11,9 +11,7 @@
 
 inline QCCEPieceColor QCCEGetPositionPieceColor(QCCEPositionRef Position, QCCEBitboard Square)
 {
-    return Position->UniversalPieceBitboards[QCCE_PIECE_COLOR_WHITE] & Square ?
-           QCCE_PIECE_COLOR_WHITE :
-           QCCE_PIECE_COLOR_BLACK;
+    return Position->UniversalPieceBitboards[QCCE_PIECE_COLOR_WHITE] & Square ? QCCE_PIECE_COLOR_WHITE : QCCE_PIECE_COLOR_BLACK;
 }
 
 QCCEPieceKind QCCEGetPositionPieceKind(QCCEPositionRef Position, QCCEBitboard Square)
@@ -21,7 +19,8 @@ QCCEPieceKind QCCEGetPositionPieceKind(QCCEPositionRef Position, QCCEBitboard Sq
     for (QCCEPieceKind PieceKind = QCCE_PIECE_KIND_PAWN; PieceKind < QCCE_PIECE_KIND_EMPTY; ++PieceKind)
     {
         if ((Position->PieceBitboards[QCCE_PIECE_COLOR_WHITE][PieceKind] |
-             Position->PieceBitboards[QCCE_PIECE_COLOR_BLACK][PieceKind]) & Square)
+             Position->PieceBitboards[QCCE_PIECE_COLOR_BLACK][PieceKind]) &
+            Square)
         {
             return PieceKind;
         }
@@ -48,12 +47,12 @@ inline QCCEBool QCCEHasPositionFlags(QCCEPositionRef Position, QCCEPositionFlags
 inline void QCCEUpdateUniversalBitboard(QCCEPositionRef Position, QCCEPieceColor Color)
 {
     Position->UniversalPieceBitboards[Color] =
-            Position->PieceBitboards[Color][QCCE_PIECE_KIND_PAWN] |
-            Position->PieceBitboards[Color][QCCE_PIECE_KIND_KNIGHT] |
-            Position->PieceBitboards[Color][QCCE_PIECE_KIND_BISHOP] |
-            Position->PieceBitboards[Color][QCCE_PIECE_KIND_ROOK] |
-            Position->PieceBitboards[Color][QCCE_PIECE_KIND_QUEEN] |
-            Position->PieceBitboards[Color][QCCE_PIECE_KIND_KING];
+        Position->PieceBitboards[Color][QCCE_PIECE_KIND_PAWN] |
+        Position->PieceBitboards[Color][QCCE_PIECE_KIND_KNIGHT] |
+        Position->PieceBitboards[Color][QCCE_PIECE_KIND_BISHOP] |
+        Position->PieceBitboards[Color][QCCE_PIECE_KIND_ROOK] |
+        Position->PieceBitboards[Color][QCCE_PIECE_KIND_QUEEN] |
+        Position->PieceBitboards[Color][QCCE_PIECE_KIND_KING];
 }
 
 inline void QCCEUpdateUniversalBitboards(QCCEPositionRef Position)
@@ -64,9 +63,7 @@ inline void QCCEUpdateUniversalBitboards(QCCEPositionRef Position)
 
 inline QCCEBitboard QCCEComputePawnAttackBitboard(QCCEBitboard PawnBitboard, QCCEPieceColor Color)
 {
-    return Color ?
-           ((PawnBitboard & QCCE_NOT_FILE_A_BITBOARD) >> 9) | ((PawnBitboard & QCCE_NOT_FILE_H_BITBOARD) >> 7) :
-           ((PawnBitboard & QCCE_NOT_FILE_A_BITBOARD) << 7) | ((PawnBitboard & QCCE_NOT_FILE_H_BITBOARD) << 9);
+    return Color ? ((PawnBitboard & QCCE_NOT_FILE_A_BITBOARD) >> 9) | ((PawnBitboard & QCCE_NOT_FILE_H_BITBOARD) >> 7) : ((PawnBitboard & QCCE_NOT_FILE_A_BITBOARD) << 7) | ((PawnBitboard & QCCE_NOT_FILE_H_BITBOARD) << 9);
 }
 
 inline QCCEBitboard QCCEComputeKnightAttackBitboard(QCCEBitboard KnightBitboard)
@@ -92,10 +89,10 @@ inline QCCEBitboard QCCEComputeBishopAttackBitboard(QCCEBitboard BishopBitboard,
     for (QCCEUint8 Index = 0; Index < 7; ++Index)
     {
         BishopAttackBitboard |=
-                (NorthWestBitboard = (NorthWestBitboard & QCCE_NOT_RANK_8_FILE_A_BITBOARD) >> 9) |
-                (NorthEastBitboard = (NorthEastBitboard & QCCE_NOT_RANK_8_FILE_H_BITBOARD) >> 7) |
-                (SouthEastBitboard = (SouthEastBitboard & QCCE_NOT_RANK_1_FILE_H_BITBOARD) << 9) |
-                (SouthWestBitboard = (SouthWestBitboard & QCCE_NOT_RANK_1_FILE_A_BITBOARD) << 7);
+            (NorthWestBitboard = (NorthWestBitboard & QCCE_NOT_RANK_8_FILE_A_BITBOARD) >> 9) |
+            (NorthEastBitboard = (NorthEastBitboard & QCCE_NOT_RANK_8_FILE_H_BITBOARD) >> 7) |
+            (SouthEastBitboard = (SouthEastBitboard & QCCE_NOT_RANK_1_FILE_H_BITBOARD) << 9) |
+            (SouthWestBitboard = (SouthWestBitboard & QCCE_NOT_RANK_1_FILE_A_BITBOARD) << 7);
 
         NorthWestBitboard &= EmptyBitboard;
         NorthEastBitboard &= EmptyBitboard;
@@ -117,10 +114,10 @@ inline QCCEBitboard QCCEComputeRookAttackBitboard(QCCEBitboard RookBitboard, QCC
     for (QCCEUint8 Index = 0; Index < 7; ++Index)
     {
         RookAttackBitboard |=
-                (WestBitboard = (WestBitboard & QCCE_NOT_FILE_A_BITBOARD) >> 1) |
-                (NorthBitboard = (NorthBitboard & QCCE_NOT_RANK_8_BITBOARD) >> 8) |
-                (EastBitboard = (EastBitboard & QCCE_NOT_FILE_H_BITBOARD) << 1) |
-                (SouthBitboard = (SouthBitboard & QCCE_NOT_RANK_1_BITBOARD) << 8);
+            (WestBitboard = (WestBitboard & QCCE_NOT_FILE_A_BITBOARD) >> 1) |
+            (NorthBitboard = (NorthBitboard & QCCE_NOT_RANK_8_BITBOARD) >> 8) |
+            (EastBitboard = (EastBitboard & QCCE_NOT_FILE_H_BITBOARD) << 1) |
+            (SouthBitboard = (SouthBitboard & QCCE_NOT_RANK_1_BITBOARD) << 8);
 
         WestBitboard &= EmptyBitboard;
         NorthBitboard &= EmptyBitboard;
@@ -146,14 +143,14 @@ inline QCCEBitboard QCCEComputeQueenAttackBitboard(QCCEBitboard QueenBitboard, Q
     for (QCCEUint8 Index = 0; Index < 7; ++Index)
     {
         QueenAttackBitboard |=
-                (NorthWestBitboard = (NorthWestBitboard & QCCE_NOT_RANK_8_FILE_A_BITBOARD) >> 9) |
-                (NorthEastBitboard = (NorthEastBitboard & QCCE_NOT_RANK_8_FILE_H_BITBOARD) >> 7) |
-                (SouthEastBitboard = (SouthEastBitboard & QCCE_NOT_RANK_1_FILE_H_BITBOARD) << 9) |
-                (SouthWestBitboard = (SouthWestBitboard & QCCE_NOT_RANK_1_FILE_A_BITBOARD) << 7) |
-                (WestBitboard = (WestBitboard & QCCE_NOT_FILE_A_BITBOARD) >> 1) |
-                (NorthBitboard = (NorthBitboard & QCCE_NOT_RANK_8_BITBOARD) >> 8) |
-                (EastBitboard = (EastBitboard & QCCE_NOT_FILE_H_BITBOARD) << 1) |
-                (SouthBitboard = (SouthBitboard & QCCE_NOT_RANK_1_BITBOARD) << 8);
+            (NorthWestBitboard = (NorthWestBitboard & QCCE_NOT_RANK_8_FILE_A_BITBOARD) >> 9) |
+            (NorthEastBitboard = (NorthEastBitboard & QCCE_NOT_RANK_8_FILE_H_BITBOARD) >> 7) |
+            (SouthEastBitboard = (SouthEastBitboard & QCCE_NOT_RANK_1_FILE_H_BITBOARD) << 9) |
+            (SouthWestBitboard = (SouthWestBitboard & QCCE_NOT_RANK_1_FILE_A_BITBOARD) << 7) |
+            (WestBitboard = (WestBitboard & QCCE_NOT_FILE_A_BITBOARD) >> 1) |
+            (NorthBitboard = (NorthBitboard & QCCE_NOT_RANK_8_BITBOARD) >> 8) |
+            (EastBitboard = (EastBitboard & QCCE_NOT_FILE_H_BITBOARD) << 1) |
+            (SouthBitboard = (SouthBitboard & QCCE_NOT_RANK_1_BITBOARD) << 8);
 
         NorthWestBitboard &= EmptyBitboard;
         NorthEastBitboard &= EmptyBitboard;
@@ -183,17 +180,17 @@ inline QCCEBitboard QCCEComputeKingAttackBitboard(QCCEBitboard KingBitboard)
 inline QCCEBitboard QCCEComputeAttackBitboard(QCCEPositionRef Position, QCCEPieceColor Color)
 {
     const QCCEBitboard EmptyBitboard =
-            ~((Position->UniversalPieceBitboards[QCCE_PIECE_COLOR_WHITE] |
-               Position->UniversalPieceBitboards[QCCE_PIECE_COLOR_BLACK]) ^
-              Position->PieceBitboards[Color ^ 1][QCCE_PIECE_KIND_KING]);
+        ~((Position->UniversalPieceBitboards[QCCE_PIECE_COLOR_WHITE] |
+           Position->UniversalPieceBitboards[QCCE_PIECE_COLOR_BLACK]) ^
+          Position->PieceBitboards[Color ^ 1][QCCE_PIECE_KIND_KING]);
     const QCCEBitboard QueenBitboard = Position->PieceBitboards[Color][QCCE_PIECE_KIND_QUEEN];
 
     return QCCEComputePawnAttackBitboard(Position->PieceBitboards[Color][QCCE_PIECE_KIND_PAWN], Color) |
            QCCEComputeKnightAttackBitboard(Position->PieceBitboards[Color][QCCE_PIECE_KIND_KNIGHT]) |
            QCCEComputeBishopAttackBitboard(
-                   Position->PieceBitboards[Color][QCCE_PIECE_KIND_BISHOP] | QueenBitboard, EmptyBitboard) |
+               Position->PieceBitboards[Color][QCCE_PIECE_KIND_BISHOP] | QueenBitboard, EmptyBitboard) |
            QCCEComputeRookAttackBitboard(
-                   Position->PieceBitboards[Color][QCCE_PIECE_KIND_ROOK] | QueenBitboard, EmptyBitboard) |
+               Position->PieceBitboards[Color][QCCE_PIECE_KIND_ROOK] | QueenBitboard, EmptyBitboard) |
            QCCEComputeKingAttackBitboard(Position->PieceBitboards[Color][QCCE_PIECE_KIND_KING]);
 }
 
@@ -210,7 +207,6 @@ inline void QCCEUpdateAttackBitboards(QCCEPositionRef Position)
 
 void QCCEUpdatePosition(QCCEPositionRef Position)
 {
-
 }
 
 void QCCEPositionDoMove(QCCEPositionRef Position, QCCEMove Move)
@@ -317,7 +313,6 @@ void QCCEPositionDoMove(QCCEPositionRef Position, QCCEMove Move)
 
 void QCCEPositionUndoMove(QCCEPositionRef Position, QCCEMove Move)
 {
-
 }
 
 QCCEPositionRef QCCEGetPositionFromFEN(const char *FEN)
@@ -372,7 +367,7 @@ QCCEPositionRef QCCEGetPositionFromFEN(const char *FEN)
         }
 
         const QCCEPieceColor PieceColor = QCCEGetPieceColorFromSymbol(Symbol);
-        const QCCEPieceKind PieceKind = QCCEGetPieceKindFromSymbol((char) toupper(Symbol));
+        const QCCEPieceKind PieceKind = QCCEGetPieceKindFromSymbol((char)toupper(Symbol));
 
         Position->PieceBitboards[PieceColor][PieceKind] |= QCCEGetBitboardFromSquareIndex(SquareIndex);
         SquareIndex++;
@@ -398,8 +393,8 @@ QCCEPositionRef QCCEGetPositionFromFEN(const char *FEN)
     }
 
     Position->EnPassantSquare = QCCEGetBitboardFromSquareString(EnPassantString);
-    Position->PlyCount = (QCCEUint16) strtoul(PlyCountString, NULL, 10);
-    Position->MoveNumber = (QCCEUint16) strtoul(MoveNumberString, NULL, 10);
+    Position->PlyCount = (QCCEUint16)strtoul(PlyCountString, NULL, 10);
+    Position->MoveNumber = (QCCEUint16)strtoul(MoveNumberString, NULL, 10);
 
     QCCEUpdateUniversalBitboards(Position);
     QCCEUpdateAttackBitboards(Position);
@@ -425,7 +420,7 @@ QCCEString QCCEGetPositionAsFENString(QCCEPositionRef Position)
             EmptyPieceCount++;
             if (7 == SquareIndex % 8)
             {
-                FENString[FENStringIndex++] = (char) ('0' + EmptyPieceCount);
+                FENString[FENStringIndex++] = (char)('0' + EmptyPieceCount);
                 EmptyPieceCount = 0;
             }
         }
@@ -433,12 +428,12 @@ QCCEString QCCEGetPositionAsFENString(QCCEPositionRef Position)
         {
             if (EmptyPieceCount > 0)
             {
-                FENString[FENStringIndex++] = (char) ('0' + EmptyPieceCount);
+                FENString[FENStringIndex++] = (char)('0' + EmptyPieceCount);
             }
             EmptyPieceCount = 0;
 
             FENString[FENStringIndex++] =
-                    QCCEGetSymbolFromPieceKindAndColor(PieceKind, QCCEGetPositionPieceColor(Position, Square));
+                QCCEGetSymbolFromPieceKindAndColor(PieceKind, QCCEGetPositionPieceColor(Position, Square));
         }
 
         if (7 == SquareIndex % 8 && SquareIndex < 63)
