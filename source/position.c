@@ -63,7 +63,9 @@ inline void QCCEUpdateUniversalBitboards(QCCEPositionRef Position)
 
 inline QCCEBitboard QCCEComputePawnAttackBitboard(QCCEBitboard PawnBitboard, QCCEPieceColor Color)
 {
-    return Color ? ((PawnBitboard & QCCE_NOT_FILE_A_BITBOARD) >> 9) | ((PawnBitboard & QCCE_NOT_FILE_H_BITBOARD) >> 7) : ((PawnBitboard & QCCE_NOT_FILE_A_BITBOARD) << 7) | ((PawnBitboard & QCCE_NOT_FILE_H_BITBOARD) << 9);
+    return Color ?
+        ((PawnBitboard & QCCE_NOT_FILE_A_BITBOARD) >> 9) | ((PawnBitboard & QCCE_NOT_FILE_H_BITBOARD) >> 7) :
+        ((PawnBitboard & QCCE_NOT_FILE_A_BITBOARD) << 7) | ((PawnBitboard & QCCE_NOT_FILE_H_BITBOARD) << 9);
 }
 
 inline QCCEBitboard QCCEComputeKnightAttackBitboard(QCCEBitboard KnightBitboard)
