@@ -12,6 +12,7 @@ void QCCEInit(void)
     }
 
     QCCEInitMemory();
+    
     IsInitialized = QCCE_BOOL_TRUE;
 }
 
